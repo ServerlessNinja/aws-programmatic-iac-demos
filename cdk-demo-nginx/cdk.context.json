@@ -2,5 +2,8 @@
   "zoneName": "aws.serverless.ninja",
   "domainName": "nginx.aws.serverless.ninja",
   "dockerImage": "nginx:latest",
-  "taskCount": 2
+  "taskCount": 2,
+  "acknowledged-issue-numbers": [
+    32775
+  ]
 }

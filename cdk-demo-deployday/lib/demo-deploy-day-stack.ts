@@ -3,12 +3,11 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 
 export class DemoDeployDayStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, deployDay: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // Get currend day of the week
     const weekDay = new Date().toLocaleString('en-US', { weekday: 'short' });
-    const deployDay = 'Wed';
 
     // Deploy DynamoDB table conditionally
     if (weekDay === deployDay) {
@@ -24,7 +23,7 @@ export class DemoDeployDayStack extends cdk.Stack {
       });
 
     } else {
-      console.warn(`It's not deployment day, it's ${weekDay}! 💣`);
+      console.warn(`It's not deployment day (${deployDay}), it's ${weekDay}! 💣`);
     }
   }
 }
