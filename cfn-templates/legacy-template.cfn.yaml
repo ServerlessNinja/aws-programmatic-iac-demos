@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CDK Migrate Demo - Legacy Template
+
+Parameters:
+
+  ResponseMessage:
+    Description: Response message from the Lambda function
+    Type: String
+    Default: "Hej Košice!"
+  
+  BucketTag:
+    Description: The tag value of the S3 bucket
+    Type: String
+    Default: "Legacy Tag"
+
+Resources:
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  
+  HelloWorldFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Runtime: python3.11
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          import os
+          def lambda_handler(event, context):
+            response_message = os.getenv('RESPONSE_MESSAGE')
+            return {
+              "statusCode": 200,
+              "body": "{}".format(response_message)
+            }
+      Environment:
+        Variables:
+          RESPONSE_MESSAGE: !Ref ResponseMessage
+  
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      Tags:
+        - Key: Organization
+          Value: Serverless Ninja
+        - Key: Application
+          Value: CDK Migrate Demo
+        - Key: DynamicTag
+          Value: !Ref BucketTag
+
+Outputs:
+
+  S3BucketName:
+    Description: The name of the S3 bucket
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub ${AWS::StackName}-S3BucketName

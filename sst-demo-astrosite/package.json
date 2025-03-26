@@ -1,0 +1,16 @@
+{
+  "name": "demo-sst-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.5.2",
+    "astro-sst": "3.1.2",
+    "sst": "3.9.39"
+  }
+}
