@@ -1,0 +1,81 @@
+name: CDK Demo Nginx
+run-name: Deploy to ${{ inputs.environment }}/${{ inputs.region }} by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: choice
+        options: [ 'poc', 'dev', 'qa', 'prod' ]
+        default: 'poc'
+      region:
+        description: 'Deployment region'
+        required: true
+        default: 'eu-north-1'
+      bootstrap:
+        description: 'Run CDK bootstrap?'
+        type: boolean
+        required: false
+        default: 'false'
+      tests:
+        description: 'Run CDK tests?'
+        type: boolean
+        required: false
+        default: 'false'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./cdk-demo-nginx
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build TypeScript project
+        run: npm run build
+
+      - name: Configure AWS credentials via GitHub OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ inputs.region }}
+          role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
+          role-session-name: ${{ github.run_id }}
+
+      - name: Bootstrap CDK (optional)
+        if: ${{ inputs.bootstrap == true }}
+        run: npx cdk bootstrap
+
+      - name: Synthesize CDK App
+        run: npx cdk synth --all --quiet
+
+      - name: List CDK Stacks
+        run: npx cdk list --long
+
+      - name: Display CDK Context
+        run: npx cdk context
+
+      - name: Deploy CDK Stacks
+        run: npx cdk deploy --all --ci --require-approval never
+
+      - name: Compare CDK Stacks
+        run: npx cdk diff --all
