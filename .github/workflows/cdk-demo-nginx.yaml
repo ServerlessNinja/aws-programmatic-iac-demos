@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build TypeScript project
+      - name: Build CDK App
         run: npm run build
 
       - name: Configure AWS credentials via GitHub OIDC
@@ -65,17 +65,17 @@ jobs:
         if: ${{ inputs.bootstrap == true }}
         run: npx cdk bootstrap
 
-      - name: Synthesize CDK App
+      - name: Synthesize all CDK Stacks
         run: npx cdk synth --all --quiet
 
       - name: List CDK Stacks
         run: npx cdk list --long
 
       - name: Display CDK Context
-        run: npx cdk context
+        run: npx cdk context --json
 
-      - name: Deploy CDK Stacks
-        run: npx cdk deploy --all --ci --require-approval never
+      - name: Deploy all CDK Stacks
+        run: npx cdk deploy --all --ci --progress bar --ignore-no-stacks --require-approval never
 
-      - name: Compare CDK Stacks
+      - name: Compare all CDK Stacks
         run: npx cdk diff --all
