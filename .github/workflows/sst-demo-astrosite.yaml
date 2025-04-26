@@ -1,4 +1,4 @@
-name: SST Astrosite
+name: SST Astro Site
 run-name: Deploy ${{ inputs.stage }} to AWS ${{ inputs.region }} by @${{ github.actor }}
 
 on:
