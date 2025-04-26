@@ -3,7 +3,8 @@ import { Template } from 'aws-cdk-lib/assertions';
 import * as DemoDeployDay from '../lib/demo-deploy-day-stack';
 
 const app = new cdk.App();
-const stack = new DemoDeployDay.DemoDeployDayStack(app, 'TestDeployDayStack', 'Wed');
+const deploymentDay: string = process.env?.CDK_DEPLOYMENT_DAY || '';
+const stack = new DemoDeployDay.DemoDeployDayStack(app, 'TestDeployDayStack', deploymentDay);
 const template = Template.fromStack(stack);
 
 // Test if resource is defined in the output template
