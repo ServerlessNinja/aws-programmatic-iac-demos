@@ -4,7 +4,6 @@ export default $config({
   app(input) {
     return {
       name: "demo-sst-astro",
-      region: input?.region || "eu-north-1",
       stage: input?.stage || "poc",
       removal: input?.stage === "prod" ? "retain" : "remove",
       protect: ["prod"].includes(input?.stage),

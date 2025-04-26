@@ -1,5 +1,5 @@
 name: SST Astrosite
-run-name: Deploy to ${{ inputs.stage }}/${{ inputs.region }} by @${{ github.actor }}
+run-name: Deploy ${{ inputs.stage }} to AWS ${{ inputs.region }} by @${{ github.actor }}
 
 on:
   workflow_dispatch:
@@ -41,6 +41,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build SST Application
+        run: npm run build
+
       - name: Configure AWS credentials via GitHub OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -48,7 +51,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           role-session-name: ${{ github.run_id }}
 
-      - name: Deploy SST Stack
+      - name: Deploy SST Application
         run: npx sst deploy --stage ${{ inputs.stage }} 
 
       - name: Display SST Output

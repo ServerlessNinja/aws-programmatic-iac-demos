@@ -1,5 +1,5 @@
-name: CDK Demo Nginx
-run-name: Deploy to ${{ inputs.environment }}/${{ inputs.region }} by @${{ github.actor }}
+name: CDK Nginx
+run-name: Deploy ${{ inputs.environment }} to AWS ${{ inputs.region }} by @${{ github.actor }}
 
 on:
   workflow_dispatch:
@@ -79,3 +79,7 @@ jobs:
 
       - name: Compare all CDK Stacks
         run: npx cdk diff --all
+
+      - name: Run CDK tests (optional)
+        if: ${{ inputs.tests == true }}
+        run: npm run test
