@@ -1,0 +1,26 @@
+name: SST Astrosite
+run-name: Deploy to ${{ inputs.stage }}/${{ inputs.region }} by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Deployment stage'
+        required: true
+        type: choice
+        options: [ 'poc', 'dev', 'qa', 'prod' ]
+        default: 'poc'
+      region:
+        description: 'Deployment region'
+        required: true
+        default: 'eu-north-1'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./sst-demo-astrosite
+
+permissions:
+  id-token: write
+  contents: read
+
