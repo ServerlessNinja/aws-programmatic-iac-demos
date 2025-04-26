@@ -48,5 +48,8 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           role-session-name: ${{ github.run_id }}
 
-      - name: Deploy SST
+      - name: Deploy SST Stack
         run: npx sst deploy --stage ${{ inputs.stage }} --region ${{ inputs.region }} 
+
+      - name: Display SST Output
+        run: npx sst outputs
