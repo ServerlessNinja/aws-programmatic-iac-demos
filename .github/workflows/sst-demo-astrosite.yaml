@@ -49,7 +49,7 @@ jobs:
           role-session-name: ${{ github.run_id }}
 
       - name: Deploy SST Stack
-        run: npx sst deploy --stage ${{ inputs.stage }} --region ${{ inputs.region }} 
+        run: npx sst deploy --stage ${{ inputs.stage }} 
 
       - name: Display SST Output
         run: npx sst outputs
