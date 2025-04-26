@@ -19,6 +19,7 @@ on:
         required: true
         type: choice
         options: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+        default: 'Mon'
       bootstrap:
         description: 'Run CDK bootstrap?'
         type: boolean
