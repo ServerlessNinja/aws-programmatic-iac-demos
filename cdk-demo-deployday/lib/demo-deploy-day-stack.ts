@@ -23,7 +23,7 @@ export class DemoDeployDayStack extends cdk.Stack {
       });
 
     } else {
-      console.warn(`It's not deployment day (${deployDay}), it's ${weekDay}! 💣`);
+      console.log(`It's not deployment day (${deployDay}), it's ${weekDay}! 💣`);
     }
   }
 }

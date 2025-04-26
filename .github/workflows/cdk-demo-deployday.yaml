@@ -25,6 +25,11 @@ on:
         type: boolean
         required: false
         default: 'false'
+      tests:
+        description: 'Run CDK tests?'
+        type: boolean
+        required: false
+        default: 'true'
 
 defaults:
   run:
@@ -71,7 +76,8 @@ jobs:
       - name: Synthesize all CDK Stacks
         run: npx cdk synth --all --quiet
 
-      - name: Run CDK tests
+      - name: Run CDK tests (optional)
+        if: ${{ inputs.tests == true }}
         run: npm run test
 
       - name: List CDK Stacks
