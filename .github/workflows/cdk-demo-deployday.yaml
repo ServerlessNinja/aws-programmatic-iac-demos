@@ -70,8 +70,7 @@ jobs:
       - name: Synthesize all CDK Stacks
         run: npx cdk synth --all --quiet
 
-      - name: Run CDK tests (optional)
-        if: ${{ inputs.tests == true }}
+      - name: Run CDK tests
         run: npm run test
 
       - name: List CDK Stacks
