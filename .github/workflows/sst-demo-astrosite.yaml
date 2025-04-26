@@ -53,6 +53,3 @@ jobs:
 
       - name: Deploy SST Application
         run: npx sst deploy --stage ${{ inputs.stage }} 
-
-      - name: Display SST Output
-        run: npx sst outputs
