@@ -27,7 +27,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.stage }}
 
     steps:
       - name: Checkout source code
