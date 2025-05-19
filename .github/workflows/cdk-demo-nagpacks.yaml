@@ -14,11 +14,6 @@ on:
         description: 'Deployment region'
         required: true
         default: 'eu-north-1'
-      bootstrap:
-        description: 'Run CDK bootstrap?'
-        type: boolean
-        required: false
-        default: 'false'
 
 defaults:
   run:
@@ -59,11 +54,13 @@ jobs:
           role-session-name: ${{ github.run_id }}
 
       - name: Bootstrap CDK (optional)
-        if: ${{ inputs.bootstrap == true }}
         run: npx cdk bootstrap
 
-      - name: Synthesize all CDK Stacks
-        run: npx cdk synth --all --quiet
+      - name: Synthesize CDK stack 1
+        run: npx cdk synth DemoNagsecureStack --quiet
+
+      - name: Synthesize CDK stack 2
+        run: npx cdk synth DemoNagDefaultStack --quiet
 
       - name: List CDK Stacks
         run: npx cdk list --long
