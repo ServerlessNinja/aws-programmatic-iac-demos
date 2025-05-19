@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { DemoNagDefaultStack } from '../lib/cdk-demo-default-stack';
-import { DemoNagSecureStack } from '../lib/cdk-demo-secure-stack'
+import { DemoNagDefaultStack } from '../lib/demo-default-stack';
+import { DemoNagSecureStack } from '../lib/demo-secure-stack'
 import { AwsSolutionsChecks, PCIDSS321Checks } from 'cdk-nag'
 import { Aspects } from 'aws-cdk-lib';
 

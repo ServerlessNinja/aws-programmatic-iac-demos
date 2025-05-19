@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/cdk-demo-nagpacks.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/demo-nagpacks.ts",
   "watch": {
     "include": [
       "**"
