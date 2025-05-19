@@ -57,7 +57,7 @@ jobs:
         run: npx cdk bootstrap
 
       - name: Synthesize CDK stack 1
-        run: npx cdk synth DemoNagsecureStack --quiet
+        run: npx cdk synth DemoNagSecureStack --quiet
 
       - name: Synthesize CDK stack 2
         run: npx cdk synth DemoNagDefaultStack --quiet
