@@ -53,13 +53,13 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE_ARN }}
           role-session-name: ${{ github.run_id }}
 
-      - name: Bootstrap CDK (optional)
+      - name: Bootstrap CDK
         run: npx cdk bootstrap
 
-      - name: Synthesize CDK stack 1
+      - name: Synthesize CDK stack (Secure)
         run: npx cdk synth DemoNagSecureStack --quiet
 
-      - name: Synthesize CDK stack 2
+      - name: Synthesize CDK stack (Default)
         run: npx cdk synth DemoNagDefaultStack --quiet
 
       - name: List CDK Stacks
