@@ -5,34 +5,35 @@ import { ApplicationProtocol } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 
-export class DemoNginxStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+export interface DemoNginxStackProps extends cdk.StackProps {
+  readonly zoneName: string;
+  readonly domainName: string;
+  readonly dockerImage: string;
+  readonly taskCount: number;
+};
 
-    // Access CDK context variable
-    const zoneName = this.node.tryGetContext('zoneName') as string;
-    const domainName = this.node.tryGetContext('domainName') as string;
-    const dockerImage = this.node.tryGetContext('dockerImage') as string;
-    const taskCount = this.node.tryGetContext('taskCount') as number || 1;
+export class DemoNginxStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: DemoNginxStackProps) {
+    super(scope, id, props);
 
     // Use existing Route 53 Hosted Zone
     const hostedZone = HostedZone.fromLookup(this, 'Zone', {
-      domainName: zoneName,
+      domainName: props.domainName,
       privateZone: false,
     });
 
     // Deploy ECS service with Fargate on ARM64 
     new ApplicationLoadBalancedFargateService(this, 'EcsNginx', {
-      desiredCount: taskCount,
+      desiredCount: props.taskCount,
       taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry(dockerImage)
+        image: ecs.ContainerImage.fromRegistry(props.dockerImage)
       },
       runtimePlatform: {
         operatingSystemFamily: ecs.OperatingSystemFamily.LINUX,
         cpuArchitecture: ecs.CpuArchitecture.ARM64,
       },
       protocol: ApplicationProtocol.HTTPS,
-      domainName: domainName,
+      domainName: props.domainName,
       domainZone: hostedZone,
     })
   }
