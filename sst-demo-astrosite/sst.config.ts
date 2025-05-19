@@ -13,7 +13,7 @@ export default $config({
   async run() {
     new sst.aws.Astro("Demo", {
       domain: {
-        name: 'astro.aws.serverless.ninja',
+        name: `${$app.stage}.aws.serverless.ninja`,
         dns: sst.aws.dns(),
       }
     });
