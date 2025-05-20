@@ -18,7 +18,7 @@ export class DemoNginxStack extends cdk.Stack {
 
     // Use existing Route 53 Hosted Zone
     const hostedZone = HostedZone.fromLookup(this, 'Zone', {
-      domainName: props.domainName,
+      domainName: props.zoneName,
       privateZone: false,
     });
 
