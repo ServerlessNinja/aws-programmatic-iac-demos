@@ -5,10 +5,10 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 
 export interface SecureBucketProps extends StackProps {
-  BusinessUnit: string;
-  Environment: string;
-  Application: string;
-  Component: string;
+  readonly department: string;
+  readonly application: string;
+  readonly component: string;
+  readonly environment: string;
 }
 
 // Example of CDK construct (L3) for secure S3 bucket
@@ -22,7 +22,7 @@ export class SecureBucketL3 extends Construct {
     
     this.secureBucket = new s3.Bucket(this, 'SecBkt', {
       ...props,
-      bucketName: `${props.BusinessUnit}-${props.Environment}-${props.Application}-${props.Component}-${region}`,
+      bucketName: `${props.department}-${props.application}-${props.component}-${props.environment}-${region}`,
       publicReadAccess: false,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.KMS,

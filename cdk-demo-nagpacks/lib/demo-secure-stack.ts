@@ -7,10 +7,10 @@ export class DemoNagSecureStack extends Stack {
     super(scope, id, props);
 
     new SecureBucketL3(this, 'SecureBucket', {
-      BusinessUnit: 'team1',
-      Environment: 'poc',
-      Application: 'app1',
-      Component: 'bkt',
+      department: 'team1',
+      environment: 'prod',
+      application: 'app1',
+      component: 'data',
     });
 
   }
