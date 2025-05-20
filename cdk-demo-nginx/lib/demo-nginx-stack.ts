@@ -29,7 +29,6 @@ export class DemoNginxStack extends cdk.Stack {
       domainZone: hostedZone,
       protocol: ApplicationProtocol.HTTPS,
       minHealthyPercent: 0,
-      propagateTags: true,
       taskImageOptions: {
         image: ecs.ContainerImage.fromRegistry(props.dockerImage)
       },
