@@ -25,16 +25,18 @@ export class DemoNginxStack extends cdk.Stack {
     // Deploy ECS service with Fargate on ARM64 
     new ApplicationLoadBalancedFargateService(this, 'EcsNginx', {
       desiredCount: props.taskCount,
+      domainName: props.domainName,
+      domainZone: hostedZone,
+      protocol: ApplicationProtocol.HTTPS,
+      minHealthyPercent: 0,
+      propagateTags: true,
       taskImageOptions: {
         image: ecs.ContainerImage.fromRegistry(props.dockerImage)
       },
       runtimePlatform: {
         operatingSystemFamily: ecs.OperatingSystemFamily.LINUX,
         cpuArchitecture: ecs.CpuArchitecture.ARM64,
-      },
-      protocol: ApplicationProtocol.HTTPS,
-      domainName: props.domainName,
-      domainZone: hostedZone,
+      }
     })
   }
 }
