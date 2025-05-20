@@ -1,8 +1,8 @@
 {
-  "name": "cdk-demo-nagpacks",
+  "name": "demo-nagpacks",
   "version": "0.1.0",
   "bin": {
-    "cdk-demo-nagpacks": "bin/cdk-demo-nagpacks.js"
+    "demo-nagpacks": "bin/demo-nagpacks.js"
   },
   "scripts": {
     "build": "tsc",
